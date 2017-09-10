@@ -1,10 +1,8 @@
 #
 # ２つの整数の足し算を機械学習し、任意の足し算を回答させる
 #
-import numpy as np
-import matplotlib.pyplot as plt
 from pandas import DataFrame
-from sklearn import linear_model, datasets
+from sklearn import linear_model
 
 # 足し算の例とその答えを用意する
 formulas = DataFrame([
