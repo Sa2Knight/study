@@ -1,5 +1,5 @@
 require 'google/apis/analyticsreporting_v4'
-require 'pp'
+require_relative './chatwork'
 
 # 対象サイトのURL
 BASE_URL = "http://qs.nndo.jp"
@@ -44,9 +44,17 @@ request = analytics::GetReportsRequest.new(
 )
 response = client.batch_get_reports(request)
 
-# 結果の出力
+# 結果を整形してテキスト化
 data = response.reports.first.data
-puts "累計ユーザ数: #{data.totals.first.values.first}"
-data.rows.each do |row|
-  puts "#{row.metrics.first.values.first}: #{BASE_URL + row.dimensions.first}"
+rows = data.rows.map do |row|
+  "#{row.metrics.first.values.first}: #{BASE_URL + row.dimensions.first}"
 end
+text = <<EOS
+累計ユーザ数: #{data.totals.first.values.first}
+#{rows.join("\n")}
+EOS
+
+# 結果をチャットワークに通知
+chatwork = Chatwork.new(ENV['CHATWORKAPI'])
+room_id  = '59255776'
+chatwork.sendMessage(room_id, text)
