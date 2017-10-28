@@ -17,22 +17,17 @@ client.authorization = Google::Auth::ServiceAccountCredentials.make_creds(
 # 対象のアナリティクスのビューID
 view_id = '158527891'
 
-# レポートの取得期間を直近７日間に
-date_range = analytics::DateRange.new(start_date: '7DaysAgo', end_date: 'today')
-
 # レポートの対象をセッション単位に
-metric = analytics::Metric.new(expression: 'ga:sessions', alias: 'sessions')
-
-# ディメンションの設定(?)
-dimension = analytics::Dimension.new(name: 'ga:browser')
+metric = analytics::Metric.new(expression: 'ga:users', alias: 'users')
 
 # GoogleアナリティクスAPIより、レポートの取得
 request = analytics::GetReportsRequest.new(
   report_requests: [analytics::ReportRequest.new(
-    view_id: view_id, metrics: [metric], dimensions: [dimension], date_ranges: [date_range]
+    view_id: view_id,
+    metrics: [metric],
   )]
 )
 response = client.batch_get_reports(request)
 
 # 結果の出力
-pp response.reports
+pp response.reports.first.data.totals.first.values.first
