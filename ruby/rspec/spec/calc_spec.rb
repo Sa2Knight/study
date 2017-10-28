@@ -21,7 +21,7 @@ RSpec.describe Calc do
       expect(Calc.new.subtract(3, 3)).to eq 0
     end
     it "差が0未満の場合はnilが戻る" do
-      expect(Calc.new.subtract(3, 4))
+      expect(Calc.new.subtract(3, 4)).to eq nil
     end
   end
 end
