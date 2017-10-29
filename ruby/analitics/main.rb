@@ -1,60 +1,17 @@
-require 'google/apis/analyticsreporting_v4'
+require_relative './analytics'
 require_relative './chatwork'
 
-# 対象サイトのURL
+# ページ別ユーザ数をGoogleアナリティクスから取得
 BASE_URL = "http://qs.nndo.jp"
-
-# GoogleアナリティクスAPIを利用するためのライブラリ
-analytics = Google::Apis::AnalyticsreportingV4
-
-# GoogleアナリティクスAPIの認証先URL
-scope = ['https://www.googleapis.com/auth/analytics.readonly']
-
-# GoogleアナリティクスAPIの認証を受ける
-client = analytics::AnalyticsReportingService.new
-client.authorization = Google::Auth::ServiceAccountCredentials.make_creds(
-  json_key_io: File.open('auth.json'),
-  scope: scope
-)
-
-# 対象のアナリティクスのビューID
 view_id = '158527891'
+analitics = Analytics.new(BASE_URL, view_id)
+report = analitics.report_users_count_by_date('today')
 
-# 集計期間を直近本日に
-date_range = analytics::DateRange.new(start_date: 'today', end_date: 'today')
-
-# レポートの対象をセッション単位に
-metric = analytics::Metric.new(expression: 'ga:users', alias: 'users')
-
-# ページ別に集計する
-dimension = analytics::Dimension.new(name: 'ga:pagePath')
-
-# カウント数順にソート
-order_by = analytics::OrderBy.new(field_name: 'ga:users', sort_order: 'DESCENDING')
-
-# GoogleアナリティクスAPIより、レポートの取得
-request = analytics::GetReportsRequest.new(
-  report_requests: [analytics::ReportRequest.new(
-    view_id: view_id,
-    metrics: [metric],
-    date_ranges: [date_range],
-    dimensions: [dimension],
-    order_bys: [order_by],
-  )]
-)
-response = client.batch_get_reports(request)
-
-# 結果を整形してテキスト化
-data = response.reports.first.data
-rows = data.rows.map do |row|
-  "#{row.metrics.first.values.first}: #{BASE_URL + row.dimensions.first}"
-end
-text = <<EOS
-累計ユーザ数: #{data.totals.first.values.first}
-#{rows.join("\n")}
-EOS
-
-# 結果をチャットワークに通知
+# 結果を整形してチャットワークに通知
 chatwork = Chatwork.new(ENV['CHATWORKAPI'])
 room_id  = '59255776'
-chatwork.sendMessage(room_id, text)
+chatwork.sendMessage(room_id, <<EOS
+累計 #{report[:total]}
+#{report[:pages].map {|page| "#{page[:views]}: #{page[:url]}"}.join("\n")}
+EOS
+)
