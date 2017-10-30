@@ -1,11 +1,11 @@
 require_relative './analytics'
 require_relative './chatwork'
 
-# ページ別ユーザ数をGoogleアナリティクスから取得
+# ページ別セッション数をGoogleアナリティクスから取得
 BASE_URL = "http://qs.nndo.jp"
 view_id = '158527891'
 analitics = Analytics.new(BASE_URL, view_id)
-report = analitics.report_users_count_by_date('today')
+report = analitics.report_sessions_count_by_date('today')
 
 # 結果を整形してチャットワークに通知
 chatwork = Chatwork.new(ENV['CHATWORKAPI'])

@@ -19,11 +19,11 @@ class Analytics
   # @param  [String] date 日付を表す文字列(todayなども可)
   # @return [Hash]   累計ユーザ数及びページごとのユーザ数
   #
-  def report_users_count_by_date(date)
+  def report_sessions_count_by_date(date)
     date_range = @analytics::DateRange.new(start_date: date, end_date: date)
-    metric = @analytics::Metric.new(expression: 'ga:users', alias: 'users')
+    metric = @analytics::Metric.new(expression: 'ga:sessions', alias: 'sessions')
     dimension = @analytics::Dimension.new(name: 'ga:pagePath')
-    order_by = @analytics::OrderBy.new(field_name: 'ga:users', sort_order: 'DESCENDING')
+    order_by = @analytics::OrderBy.new(field_name: 'ga:sessions', sort_order: 'DESCENDING')
     request = @analytics::GetReportsRequest.new(
       report_requests: [@analytics::ReportRequest.new(
         view_id: @view_id,
