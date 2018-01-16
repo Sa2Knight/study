@@ -1,0 +1,8 @@
+# コメントに日本語を書きたいので無効にする
+Style/AsciiComments:
+  Enabled: false
+
+# １行は40文字までにする
+Metrics/LineLength:
+  Max: 40
+
