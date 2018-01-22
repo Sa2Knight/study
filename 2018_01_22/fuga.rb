@@ -3,6 +3,6 @@ class Hoge
     a ** 2
   end
   def method2(a, b)
-    a - b
+    a * b
   end
 end
