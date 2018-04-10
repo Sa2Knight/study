@@ -1,0 +1,6 @@
+1 sasaki
+2 satou
+3 tanaka
+4 itou
+5 yamada
+6 yasuda
