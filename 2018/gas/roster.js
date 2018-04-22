@@ -80,7 +80,6 @@ function setOtherInfo() {
  */
 function clearTimeCells() {
   sheet.getRange(14, 5, 31, 3).clearContent()
-  sheet.getRange(14, 8, 31, 4).clearContent()
 }
 
 /**
