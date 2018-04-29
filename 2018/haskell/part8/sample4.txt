@@ -1,0 +1,6 @@
+hoge
+ hogehoge
+   hoghoge
+hoge
+hoge hoge hoge
+  hoge hogehoge hoge
