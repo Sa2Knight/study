@@ -63,7 +63,7 @@ function setDowRow() {
   var firstDayDow = new Date(new Date().setDate(1)).getDay()
   for (var i =0; i < 31; i++) {
     var dowCell = sheet.getRange(14 + i, 4)
-    dowCell.setValue(dow[firstDayDow + i % 7])
+    dowCell.setValue(dow[(firstDayDow + i) % 7])
   }
 }
 
