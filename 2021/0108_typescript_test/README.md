@@ -1,0 +1,2 @@
+- [公式ドキュメントを読んでもinferが理解できない人のためのinferの説明](https://qiita.com/ringtail003/items/733aff32ddad7d4fda90)
+- [TypeScript 4.1 の Template Literal Types がやばい](https://qiita.com/acro5piano/items/5787b9133f7433040085)
