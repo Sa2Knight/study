@@ -1,0 +1,1 @@
+- [カタ柱じゃなくてもできる、TypeScript の呼吸](https://zenn.dev/tkdn/books/type-breathing)
